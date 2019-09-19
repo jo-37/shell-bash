@@ -13,7 +13,7 @@ use constant BLKSIZE => 1024;
 BEGIN {
 		require Exporter;
 		our
-			$VERSION = 1.00;
+			$VERSION = '0.001';
 		our @ISA = qw(Exporter);
 		our @EXPORT = qw(bash);
 }

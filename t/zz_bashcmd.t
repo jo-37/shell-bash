@@ -37,4 +37,17 @@ $rc = bash 'cat <(echo -n "$foo")', $output, undef, foo => $input;
 is $output, $input, 'special bash feature';
 is $rc, T(), 'retcode ok';
 
+# partion input processing
+my $block = 'a' x 262144;
+my $warn;
+{
+	local $SIG{__WARN__} = sub {$warn = $_[0]};
+	eval {
+		$rc = bash 'dd bs=64 count=8', $output, $block;
+	};
+}
+
+is length($output), 512, 'partial input processing';
+is $rc, T(), 'retcode ok';
+like $warn, qr/^write to cmd failed at/, 'warning issued';
 done_testing;
