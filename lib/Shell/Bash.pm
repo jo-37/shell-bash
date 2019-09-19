@@ -158,6 +158,8 @@ sub bash ($$;$%) {
 # vi:ts=4:
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 Shell::Bash - Execute bash commands
@@ -313,17 +315,16 @@ However, under some circumstance such blocking might occur.
 
 =head1 AUTHOR
 
-Joerg Sommrey
+Jörg Sommrey
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2019, Joerg Sommrey. All rights reserved.
+Copyright (c) 2019, Jörg Sommrey. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
 See L<http://dev.perl.org/licenses/> for more information.
-
 
 =cut
