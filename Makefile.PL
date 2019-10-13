@@ -4,10 +4,10 @@ use warnings FATAL => 'all';
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME             => 'Shell::Bash',
+    NAME             => 'Shell::Run',
     AUTHOR           => q{Jörg Sommrey <git@sommrey.de>},
-    VERSION_FROM     => 'lib/Shell/Bash.pm',
-    ABSTRACT_FROM    => 'lib/Shell/Bash.pm',
+    VERSION_FROM     => 'lib/Shell/Run.pm',
+    ABSTRACT_FROM    => 'lib/Shell/Run.pm',
     LICENSE          => 'Perl_5',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.006,
@@ -22,8 +22,8 @@ WriteMakefile(
 		'IPC::Open2' => 0,
 		'IO::Select' => 0,
 		'IO::String' => 0,
+		'File::Which' => 0,
 		'Carp'	=> 0,
-		'Exporter' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Shell-Bash-*' },

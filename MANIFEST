@@ -1,5 +1,5 @@
 Changes
-lib/Shell/Bash.pm
+lib/Shell/Run.pm
 Makefile.PL
 MANIFEST			This list of files
 README
@@ -8,3 +8,4 @@ t/manifest.t
 t/pod-coverage.t
 t/pod.t
 t/zz_bashcmd.t
+t/cmd.sh

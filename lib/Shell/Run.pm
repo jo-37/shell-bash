@@ -1,4 +1,4 @@
-package Shell::Bash;
+package Shell::Run;
 
 use strict;
 use warnings;
@@ -6,25 +6,44 @@ use warnings;
 use IPC::Open2;
 use IO::Select;
 use IO::String;
+use File::Which;
 use Carp;
 
 use constant BLKSIZE => 1024;
 
 BEGIN {
-		require Exporter;
 		our
-			$VERSION = '0.001';
-		our @ISA = qw(Exporter);
-		our @EXPORT = qw(bash);
+			$VERSION = '0.002';
 }
 
-our @shell = qw(/bin/bash -c);
-our $debug;
+sub new {
+	my $class = shift;
+	my %args = @_;
+	my @cmd;
+	
+	if ($args{exe}) {
+		$cmd[0] = $args{exe};
+	} else {
+		my $name = $args{name} || 'sh';
+		$cmd[0] = which $name;
+	}	
+	if (defined $args{args}) {
+		push @cmd, @{$args{args}};
+	} else {
+		push @cmd, '-c';
+	}
+	my $shell;
+	$shell->{shell} = \@cmd;
+	$shell->{debug} = $args{debug};
+	return bless $shell, $class;
+}
 
-sub bash ($$;$%) {
+sub run {
+	my $self = shift;
 	# command to execute
 	my $cmd = shift;
-	print STDERR "executing cmd:\n$cmd\n" if $debug;
+	print STDERR "using shell: @{$self->{shell}}\n" if $self->{debug};
+	print STDERR "executing cmd:\n$cmd\n" if $self->{debug};
 
 	# cmd output, make $output an alias to the second argument
 	our $output;
@@ -36,13 +55,13 @@ sub bash ($$;$%) {
 	my $input = shift;
 	my $inh = IO::String->new;
 	$inh->open($input);
-	print STDERR "have input data\n" if $debug && $input;
+	print STDERR "have input data\n" if $self->{debug} && $input;
 
 	# additional environment entries for use as shell variables
 	my %env = @_;
 	local %ENV = %ENV;
 	$ENV{$_} = $env{$_} foreach keys %env;
-	if ($debug && %env) {
+	if ($self->{debug} && %env) {
 		print STDERR "setting env variables:\n";
 		print STDERR "$_=$env{$_}\n" foreach keys %env;
 	}
@@ -50,7 +69,7 @@ sub bash ($$;$%) {
 	# start cmd
 	my ($c_in, $c_out);
 	$c_in = '' unless $input;
-	my $pid = open2($c_out, $c_in, @shell, $cmd);
+	my $pid = open2($c_out, $c_in, @{$self->{shell}}, $cmd);
 
 	# ensure filehandles are blocking
 	$c_in->blocking(1);
@@ -66,10 +85,10 @@ sub bash ($$;$%) {
 	my $pipe_closed;
 	local $SIG{PIPE} = sub {
 		$pipe_closed = 1;
-		print STDERR "got SIGPIPE\n" if $debug;
+		print STDERR "got SIGPIPE\n" if $self->{debug};
 	};
 
-	print STDERR "\n" if $debug;
+	print STDERR "\n" if $self->{debug};
 	loop:
 	while (1) {
 		# get filehandles ready to read or write
@@ -80,16 +99,17 @@ sub bash ($$;$%) {
 			my $data;
 			my $bytes =	sysread $rh, $data, BLKSIZE;
 			unless (defined $bytes) {
-				print STDERR "read from cmd failed\n" if $debug;
+				print STDERR "read from cmd failed\n" if $self->{debug};
 				carp "read from cmd failed";
 				return 1;
 			}
-			print STDERR "read $bytes bytes from cmd\n" if $debug && $bytes;
+			print STDERR "read $bytes bytes from cmd\n"
+				if $self->{debug} && $bytes;
 			$output .= $data;
 
 			# finish on eof from cmd
 			if (! $bytes) {
-				print STDERR "closing output from cmd\n" if $debug;
+				print STDERR "closing output from cmd\n" if $self->{debug};
 				close($rh);
 				$sin->remove($rh);
 				last loop;
@@ -101,7 +121,7 @@ sub bash ($$;$%) {
 			# stop writing to input on write error / SIGPIPE
 			if ($pipe_closed) {
 				print STDERR "closing input to cmd as pipe is closed\n"
-					if $debug;
+					if $self->{debug};
 				close $wh;
 				$sout->remove($wh);
 				next loop;
@@ -115,12 +135,12 @@ sub bash ($$;$%) {
 			my $to_be_written = length($data) < BLKSIZE ?
 				length($data) : BLKSIZE;
 			print STDERR "writing $to_be_written bytes to cmd\n"
-				if $debug && $data;
+				if $self->{debug} && $data;
 			my $bytes = syswrite $wh, $data, BLKSIZE;
 
 			# write failure mostly because of broken pipe
 			unless (defined $bytes) {
-				print STDERR "write to cmd failed\n" if $debug;
+				print STDERR "write to cmd failed\n" if $self->{debug};
 				carp "write to cmd failed";
 				$pipe_closed = 1;
 				next loop;
@@ -128,7 +148,7 @@ sub bash ($$;$%) {
 
 			# log partial write
 			print STDERR "wrote $bytes bytes to cmd\n"
-				if $debug && $bytes < $to_be_written;
+				if $self->{debug} && $bytes < $to_be_written;
 				
 			# adjust input data position
 			if ($bytes < length($data)) {
@@ -137,7 +157,8 @@ sub bash ($$;$%) {
 
 			# close cmd input when data is exhausted
 			if (eof($inh)) {
-				print STDERR "closing input to cmd on end of data\n" if $debug;
+				print STDERR "closing input to cmd on end of data\n"
+					if $self->{debug};
 				close $wh;
 				$sout->remove($wh);
 			}
@@ -148,7 +169,7 @@ sub bash ($$;$%) {
 	# avoid zombies and get return status
 	waitpid $pid, 0;
 	my $status = $? >> 8;
-	print STDERR "cmd exited with rc=$status\n\n" if $debug;
+	print STDERR "cmd exited with rc=$status\n\n" if $self->{debug};
 
 	return !$status;
 }
@@ -162,35 +183,35 @@ __END__
 
 =head1 NAME
 
-Shell::Bash - Execute bash commands
+Shell::Run - Execute bash commands
 
 =head1 SYNOPSIS
 
-	use Shell::Bash;
+	use Shell::Run;
 	
-	$Shell::Bash::debug = 1;
+	my $bash = Shell::Run->new(name => 'bash');
 
 	my ($input, $output);
 
 	# input and output, status check
 	$input = 'fed to cmd';
-	bash 'cat', $output, $input or warn('bash failed');
+	$bash->run('cat', $output, $input) or warn('bash failed');
 	print "output is '$output'\n";
 	
 	# no input
-	bash 'echo hello', $output;
+	$bash->run('echo hello', $output);
 	print "output is '$output'\n";
 	
 	# use shell variable
-	bash 'echo $foo', $output, undef, foo => 'var from env';
+	$bash->run('echo $foo', $output, undef, foo => 'var from env');
 	print "output is '$output'\n";
 
-	# use bashism
-	bash 'cat <(echo $foo)', $output, undef, foo => 'var from file';
+	# use bash feature
+	$bash->run('cat <(echo $foo)', $output, undef, foo => 'var from file');
 	print "output is '$output'\n";
 
 =head1 DESCIPTION
-The C<Shell::Bash> module provides an alternative interface for executing
+The C<Shell::Run> class provides an alternative interface for executing
 shell commands in addition to 
 
 =over
@@ -206,6 +227,9 @@ C<open CMD, '|-', 'cmd'>
 
 =item *
 C<open CMD, '-|', 'cmd'>
+
+=item *
+C<IPC::Run>
 
 =back
 
@@ -235,9 +259,6 @@ Other things to consider:
 =over
 
 =item *
-C<bash> might not be the default shell on the system.
-
-=item *
 There is no way to specify by which interpreter C<qx{cmd}> is executed.
 
 =item *
@@ -251,14 +272,18 @@ perl variables are not accessible from the shell.
 Another challenge consists in feeding the called command
 with input from the perl script and capturing the output at
 the same time.
+While this last item is perfectly solved by C<IPC::Run>,
+the latter is rather complex and even requires some special setup to
+execute code by a specific shell.
 
-The module C<Shell::Bash> tries to merge the possibilities of the
+The class C<Shell::Run> tries to merge the possibilities of the
 above named alternatives into one. I.e.:
 
 =over
 
 =item *
-use a specific command interpreter, C</bin/bash> as default
+use a specific command interpreter e.g. C<bash> (or C<sh> as default
+which does not make too much sense).
 
 =item *
 provide the command to execute as a single string, like in C<system()>
@@ -275,29 +300,95 @@ enable access to perl variables within the called command
 
 =back
 
-Using the C<Shell::Bash> module, the above given shell script example
+Using the C<Shell::Run> class, the above given shell script example
 might be implemented this way in perl:
+
+	my $bash = Shell::Run->new(name => 'bash);
 
 	my $passwd = 'secret'
 	my $key;
-	bash 'openssl pkcs12 -nocerts -nodes -in demo.pfx \
-		-passin env:passwd', $key, undef, passwd => $passwd;
+	$bash->run('openssl pkcs12 -nocerts -nodes -in demo.pfx \
+		-passin env:passwd', $key, undef, passwd => $passwd);
 	my $signdata = 'some data to be signed';
 	my $signature;
-	bash 'openssl dgst -sha256 -sign <(echo "$key") -hex',
-		 $signature, $signdata, key => $key;
+	$bash->run('openssl dgst -sha256 -sign <(echo "$key") -hex',
+		 $signature, $signdata, key => $key);
 	print $signature;
 Quite similar, isn't it?
 
 Actually, the a call to C<openssl dgst> as above was the very reason
-to create this module.
+to create this class.
 
-Commands given to C<bash> are execute via C</bin/bash -c>
-by default.
-This might be modified by assigning another interpreter
-to C<@Shell::Bash::shell>.
+Commands run by C<$sh->run> are by default executed via the C<-c> option
+of the specified shell.
+This behaviour can be modified by providing other arguments in the
+constructor C<Shell::Run->new>.
 
-Debugging output can be enabled by setting C<$Shell::Bash::debug> to true.
+Debugging output can be enabled in a similar way.
+
+=head1 METHODS
+
+=head2 Constructor
+
+
+=head3 Shell::Run->new([name => I<shell>,] [exe => I<path>,]
+	[args => [I<arguments>,] [debug => I<debug>])
+
+=over
+
+=item I<shell>
+
+The name of the shell interpreter to be used by the
+created instance.
+The executable is searched for in the C<PATH> variable.
+
+This value is ignored if I<path> is given and defaults to C<sh>.
+
+=item I<path>
+
+The fully specified path to an executable to be used by
+the created instance.
+
+=item I<arguments>
+
+If I<arguments> is provided, it shall be a reference to an array
+specifying arguments that are passed to the specified shell.
+
+The default is C<-c>.
+Use a reference to an empty array to avoid this.
+
+=item I<debug>
+
+When I<debug> is set to true, calls to the C<run> method will print
+debugging output to STDERR.
+
+=back
+
+=head2 Methods
+
+=head3 $sh->run(I<cmd>, I<output> [, I<input> [, I<key> => I<value>,...]])
+
+=over
+
+=item I<cmd>
+
+The code that is to be executed by this shell.
+
+=item I<output>
+
+A scalar that will receive STDOUT from I<cmd>.
+The content of this variable will be overwritten by C<$sh->run> calls.
+
+=item I<input>
+
+An optional scalar holding data that is fed to STDIN of I<cmd>
+
+=item I<key> => I<value>
+
+A list of key-value pairs that are set in the environment of the
+called shell.
+
+=back
 
 =head1 BUGS AND LIMITATIONS
 
@@ -312,6 +403,10 @@ Best efford has been made to avoid blocking situations
 where neither reading output from the script
 nor writing input to it is possible.
 However, under some circumstance such blocking might occur.
+
+=head1 SEE ALSO
+
+For more advanced interaction with background processes see L<IPC::Run>.
 
 =head1 AUTHOR
 

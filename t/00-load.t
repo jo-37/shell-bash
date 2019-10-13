@@ -7,7 +7,7 @@ use Test::More;
 plan tests => 1;
 
 BEGIN {
-    use_ok( 'Shell::Bash' ) || print "Bail out!\n";
+    use_ok( 'Shell::Run' ) || print "Bail out!\n";
 }
 
-diag( "Testing Shell::Bash $Shell::Bash::VERSION, Perl $], $^X" );
+diag( "Testing Shell::Run $Shell::Run::VERSION, Perl $], $^X" );
