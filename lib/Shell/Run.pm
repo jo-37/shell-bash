@@ -331,8 +331,7 @@ Debugging output can be enabled in a similar way.
 =head2 Constructor
 
 
-=head3 Shell::Run->new([name => I<shell>,] [exe => I<path>,]
-	[args => [I<arguments>,] [debug => I<debug>])
+=head3 Shell::Run->new([name => I<shell>,] [exe => I<path>,] [args => I<arguments>,] [debug => I<debug>])
 
 =over
 

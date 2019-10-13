@@ -112,7 +112,7 @@ Debugging output can be enabled in a similar way.
 
 ## Constructor
 
-### Shell::Run->new(\[name => _shell_,\] \[exe => _path_,\] \[args => \[_arguments_,\] \[debug => _debug_\])
+### Shell::Run->new(\[name => _shell_,\] \[exe => _path_,\] \[args => _arguments_,\] \[debug => _debug_\])
 
 - _shell_
 
