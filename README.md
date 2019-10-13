@@ -101,10 +101,10 @@ Quite similar, isn't it?
 Actually, the a call to `openssl dgst` as above was the very reason
 to create this class.
 
-Commands run by `$sh-`run> are by default executed via the `-c` option
+Commands run by `$sh->run` are by default executed via the `-c` option
 of the specified shell.
 This behaviour can be modified by providing other arguments in the
-constructor `Shell::Run-`new>.
+constructor `Shell::Run->new`.
 
 Debugging output can be enabled in a similar way.
 
@@ -112,8 +112,7 @@ Debugging output can be enabled in a similar way.
 
 ## Constructor
 
-### Shell::Run->new(\[name => _shell_,\] \[exe => _path_,\]
-	\[args => \[_arguments_,\] \[debug => _debug_\])
+### Shell::Run->new(\[name => _shell_,\] \[exe => _path_,\] \[args => \[_arguments_,\] \[debug => _debug_\])
 
 - _shell_
 
