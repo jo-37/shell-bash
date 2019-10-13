@@ -331,7 +331,7 @@ Debugging output can be enabled in a similar way.
 =head2 Constructor
 
 
-=head3 Shell::Run->new([name => I<shell>,] [exe => I<path>,] [args => I<arguments>,] [debug => I<debug>])
+=head3 Shell::Run->new([name => I<shell>] [, exe => I<path>] [, args => I<arguments>] [, debug => I<debug>])
 
 =over
 
@@ -365,7 +365,7 @@ debugging output to STDERR.
 
 =head2 Methods
 
-=head3 $sh->run(I<cmd>, I<output> [, I<input> [, I<key> => I<value>,...]])
+=head3 $sh->run(I<cmd>, I<output> [, I<input> [, I<key> => I<value>, ...]])
 
 =over
 
@@ -382,7 +382,7 @@ The content of this variable will be overwritten by C<$sh->run> calls.
 
 An optional scalar holding data that is fed to STDIN of I<cmd>
 
-=item I<key> => I<value>
+=item I<key> => I<value>, ...
 
 A list of key-value pairs that are set in the environment of the
 called shell.

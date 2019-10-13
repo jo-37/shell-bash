@@ -142,7 +142,7 @@ Debugging output can be enabled in a similar way.
 
 ## Methods
 
-### $sh->run(_cmd_, _output_ \[, _input_ \[, _key_ => _value_,...\]\])
+### $sh->run(_cmd_, _output_ \[, _input_ \[, _key_ => _value_, ...\]\])
 
 - _cmd_
 
@@ -157,7 +157,7 @@ Debugging output can be enabled in a similar way.
 
     An optional scalar holding data that is fed to STDIN of _cmd_
 
-- _key_ => _value_
+- _key_ => _value_, ...
 
     A list of key-value pairs that are set in the environment of the
     called shell.
