@@ -112,7 +112,7 @@ Debugging output can be enabled in a similar way.
 
 ## Constructor
 
-### Shell::Run->new(\[name => _shell_,\] \[exe => _path_,\] \[args => _arguments_,\] \[debug => _debug_\])
+### Shell::Run->new(\[name => _shell_\] \[, exe => _path_\] \[, args => _arguments_\] \[, debug => _debug_\])
 
 - _shell_
 
@@ -151,7 +151,7 @@ Debugging output can be enabled in a similar way.
 - _output_
 
     A scalar that will receive STDOUT from _cmd_.
-    The content of this variable will be overwritten by `$sh-`run> calls.
+    The content of this variable will be overwritten by `$sh->run` calls.
 
 - _input_
 
