@@ -11,10 +11,8 @@ use Carp;
 
 use constant BLKSIZE => 1024;
 
-BEGIN {
-		our
-			$VERSION = '0.002';
-}
+our
+	$VERSION = '0.02';
 
 sub new {
 	my $class = shift;

@@ -26,5 +26,5 @@ WriteMakefile(
 		'Carp'	=> 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'Shell-Bash-*' },
+    clean => { FILES => 'Shell-Run-*' },
 );
