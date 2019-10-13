@@ -1,6 +1,6 @@
 # NAME
 
-Shell::Run - Execute bash commands
+Shell::Run - Execute shell commands using specific shell
 
 # SYNOPSIS
 

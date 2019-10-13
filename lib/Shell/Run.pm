@@ -183,7 +183,7 @@ __END__
 
 =head1 NAME
 
-Shell::Run - Execute bash commands
+Shell::Run - Execute shell commands using specific shell
 
 =head1 SYNOPSIS
 
