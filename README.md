@@ -48,7 +48,7 @@ be done straightforward with perl:
                 -passin env:passwd)"
         signdata='some data to be signed'
         signature="$(echo -n "$signdata" | \
-                openssl dgst -sha256 -sign <(echo "key") -hex"
+                openssl dgst -sha256 -sign <(echo "$key") -hex"
         echo "$signature"
 
 As there are much more openssl commands available on shell level
