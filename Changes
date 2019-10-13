@@ -3,3 +3,6 @@ Revision history for Shell-Run
 0.01    Wed Sep 18 19:24:44 2019 +0200
         First version, released on an unsuspecting world.
 
+0.02	Sun Oct 13 15:44:20 2019 +0200
+		redesigned as class and renamed to Shell::Run
+
