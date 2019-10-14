@@ -242,7 +242,7 @@ be done straightforward with perl:
 		-passin env:passwd)"
 	signdata='some data to be signed'
 	signature="$(echo -n "$signdata" | \
-		openssl dgst -sha256 -sign <(echo "key") -hex"
+		openssl dgst -sha256 -sign <(echo "$key") -hex"
 	echo "$signature"
 
 As there are much more openssl commands available on shell level
@@ -301,7 +301,7 @@ enable access to perl variables within the called command
 Using the C<Shell::Run> class, the above given shell script example
 might be implemented this way in perl:
 
-	my $bash = Shell::Run->new(name => 'bash);
+	my $bash = Shell::Run->new(name => 'bash');
 
 	my $passwd = 'secret'
 	my $key;
@@ -312,6 +312,7 @@ might be implemented this way in perl:
 	$bash->run('openssl dgst -sha256 -sign <(echo "$key") -hex',
 		 $signature, $signdata, key => $key);
 	print $signature;
+
 Quite similar, isn't it?
 
 Actually, the a call to C<openssl dgst> as above was the very reason
@@ -329,7 +330,7 @@ Debugging output can be enabled in a similar way.
 =head2 Constructor
 
 
-=head3 Shell::Run->new([name => I<shell>] [, exe => I<path>] [, args => I<arguments>] [, debug => I<debug>])
+=head3 Shell::Run->new([name => I<shell>,] [exe => I<path>,] [args => I<arguments>,] [debug => I<debug>])
 
 =over
 
@@ -363,7 +364,7 @@ debugging output to STDERR.
 
 =head2 Methods
 
-=head3 $sh->run(I<cmd>, I<output> [, I<input> [, I<key> => I<value>, ...]])
+=head3 $sh->run(I<cmd>, I<output>, [I<input>, [I<key> => I<value>, ...]])
 
 =over
 

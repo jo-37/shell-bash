@@ -96,6 +96,7 @@ might be implemented this way in perl:
         $bash->run('openssl dgst -sha256 -sign <(echo "$key") -hex',
                  $signature, $signdata, key => $key);
         print $signature;
+
 Quite similar, isn't it?
 
 Actually, the a call to `openssl dgst` as above was the very reason
@@ -112,7 +113,7 @@ Debugging output can be enabled in a similar way.
 
 ## Constructor
 
-### Shell::Run->new(\[name => _shell_\] \[, exe => _path_\] \[, args => _arguments_\] \[, debug => _debug_\])
+### Shell::Run->new(\[name => _shell_,\] \[exe => _path_,\] \[args => _arguments_,\] \[debug => _debug_\])
 
 - _shell_
 
@@ -142,7 +143,7 @@ Debugging output can be enabled in a similar way.
 
 ## Methods
 
-### $sh->run(_cmd_, _output_ \[, _input_ \[, _key_ => _value_, ...\]\])
+### $sh->run(_cmd_, _output_, \[_input_, \[_key_ => _value_, ...\]\])
 
 - _cmd_
 
