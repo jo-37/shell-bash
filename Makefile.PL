@@ -27,4 +27,14 @@ WriteMakefile(
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Shell-Run-*' },
+	META_MERGE => {
+		"meta-spec" => { version => 2 },
+		resources => {
+			repository => {
+				type => 'git',
+				url => 'git://github.com/jo-37/shell-run.git',
+				web => 'https://github.com/jo-37/shell-run',
+			},
+		},
+	},
 );
