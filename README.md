@@ -85,7 +85,7 @@ of the called command
 Using the `Shell::Run` class, the above given shell script example
 might be implemented this way in perl:
 
-        my $bash = Shell::Run->new(name => 'bash);
+        my $bash = Shell::Run->new(name => 'bash');
 
         my $passwd = 'secret'
         my $key;
