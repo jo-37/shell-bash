@@ -1,6 +1,9 @@
 Revision history for Shell-Run
 
 0.02_1	pending
+		[pod]
+		fixed typo
+
 		[fix]
 		more specific TODO in test
 
