@@ -49,10 +49,11 @@ my $warn;
 	eval {
 		$rc = $bash->run('dd bs=64 count=8 status=none', $output, $block);
 	};
-	my $todo = todo 'test might fail';
+	todo 'warning might be missing' => sub {
+		like $warn, qr/^write to cmd failed at/, 'warning issued';
+	};
 	is length($output), 512, 'partial input processing';
 	is $rc, T(), 'retcode ok';
-	like $warn, qr/^write to cmd failed at/, 'warning issued';
 }
 
 # specify exe and args
