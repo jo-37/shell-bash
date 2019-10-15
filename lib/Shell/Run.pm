@@ -303,7 +303,7 @@ might be implemented this way in perl:
 
 	my $bash = Shell::Run->new(name => 'bash');
 
-	my $passwd = 'secret'
+	my $passwd = 'secret';
 	my $key;
 	$bash->run('openssl pkcs12 -nocerts -nodes -in demo.pfx \
 		-passin env:passwd', $key, undef, passwd => $passwd);
