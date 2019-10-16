@@ -49,9 +49,9 @@ my $warn;
 	eval {
 		$rc = $bash->run('dd bs=64 count=8 status=none', $output, $block);
 	};
-	todo 'warning might be missing' => sub {
-		like $warn, qr/^write to cmd failed at/, 'warning issued';
-	};
+	# next test failed once, don't know why and cannot reproduce
+	like $warn, qr/^write to cmd failed at/, 'warning issued';
+
 	is length($output), 512, 'partial input processing';
 	is $rc, T(), 'retcode ok';
 }
