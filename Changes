@@ -1,6 +1,9 @@
 Revision history for Shell-Run
 
-0.02_1	pending
+0.03	Thu Oct 17 19:54:54 2019 +0200
+		[fix]
+		adjusted minimum perl version
+
 		[pod]
 		fixed typo
 
