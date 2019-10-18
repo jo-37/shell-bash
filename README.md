@@ -99,7 +99,7 @@ might be implemented this way in perl:
 
 Quite similar, isn't it?
 
-Actually, the a call to `openssl dgst` as above was the very reason
+Actually, the call to `openssl dgst` as above was the very reason
 to create this class.
 
 Commands run by `$sh->run` are by default executed via the `-c` option
@@ -172,7 +172,7 @@ Sometimes a SIGPIPE is caught and sometimes `syswrite`
 returns an error.
 It is not clear if all situations are handled correctly.
 
-Best efford has been made to avoid blocking situations
+Best effort has been made to avoid blocking situations
 where neither reading output from the script
 nor writing input to it is possible.
 However, under some circumstance such blocking might occur.
