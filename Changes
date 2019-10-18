@@ -1,4 +1,8 @@
 Revision history for Shell-Run
+0.04_1	pending
+		[pod]
+		fix POD
+
 0.04	Fri Oct 18 08:23:43 2019 +0200
 		[fix]
 		set failing test to TODO
