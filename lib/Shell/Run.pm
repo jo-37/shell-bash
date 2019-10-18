@@ -315,13 +315,13 @@ might be implemented this way in perl:
 
 Quite similar, isn't it?
 
-Actually, the a call to C<openssl dgst> as above was the very reason
+Actually, the call to C<openssl dgst> as above was the very reason
 to create this class.
 
-Commands run by C<$sh->run> are by default executed via the C<-c> option
+Commands run by C<< $sh->run >> are by default executed via the C<-c> option
 of the specified shell.
 This behaviour can be modified by providing other arguments in the
-constructor C<Shell::Run->new>.
+constructor C<< Shell::Run->new >>.
 
 Debugging output can be enabled in a similar way.
 
@@ -375,7 +375,7 @@ The code that is to be executed by this shell.
 =item I<output>
 
 A scalar that will receive STDOUT from I<cmd>.
-The content of this variable will be overwritten by C<$sh->run> calls.
+The content of this variable will be overwritten by C<< $sh->run >> calls.
 
 =item I<input>
 
@@ -397,7 +397,7 @@ Sometimes a SIGPIPE is caught and sometimes C<syswrite>
 returns an error.
 It is not clear if all situations are handled correctly.
 
-Best efford has been made to avoid blocking situations
+Best effort has been made to avoid blocking situations
 where neither reading output from the script
 nor writing input to it is possible.
 However, under some circumstance such blocking might occur.
