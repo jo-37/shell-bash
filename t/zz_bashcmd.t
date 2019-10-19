@@ -47,7 +47,7 @@ my $warn;
 {
 	local $SIG{__WARN__} = sub {$warn = $_[0]};
 	eval {
-		$rc = $bash->run('dd bs=64 count=8 status=none', $output, $block);
+		$rc = $bash->run('dd bs=64 count=8 2>/dev/null', $output, $block);
 	};
 	# next test fails if command exits before warning is issued
 	todo "warning depends on timing" => sub {
