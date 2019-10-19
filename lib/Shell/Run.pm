@@ -12,7 +12,7 @@ use Carp;
 use constant BLKSIZE => 1024;
 
 our
-	$VERSION = '0.04_1';
+	$VERSION = '0.05';
 
 sub new {
 	my $class = shift;
