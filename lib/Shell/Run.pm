@@ -228,7 +228,7 @@ C<open CMD, '|-', 'cmd'>
 C<open CMD, '-|', 'cmd'>
 
 =item *
-C<IPC::Run>
+L<IPC::Run>
 
 =back
 
@@ -271,7 +271,7 @@ perl variables are not accessible from the shell.
 Another challenge consists in feeding the called command
 with input from the perl script and capturing the output at
 the same time.
-While this last item is perfectly solved by C<IPC::Run>,
+While this last item is perfectly solved by L<IPC::Run>,
 the latter is rather complex and even requires some special setup to
 execute code by a specific shell.
 

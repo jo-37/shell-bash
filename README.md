@@ -4,28 +4,30 @@ Shell::Run - Execute shell commands using specific shell
 
 # SYNOPSIS
 
-        use Shell::Run;
-        
-        my $bash = Shell::Run->new(name => 'bash');
+```perl
+    use Shell::Run;
+    
+    my $bash = Shell::Run->new(name => 'bash');
 
-        my ($input, $output);
+    my ($input, $output);
 
-        # input and output, status check
-        $input = 'fed to cmd';
-        $bash->run('cat', $output, $input) or warn('bash failed');
-        print "output is '$output'\n";
-        
-        # no input
-        $bash->run('echo hello', $output);
-        print "output is '$output'\n";
-        
-        # use shell variable
-        $bash->run('echo $foo', $output, undef, foo => 'var from env');
-        print "output is '$output'\n";
+    # input and output, status check
+    $input = 'fed to cmd';
+    $bash->run('cat', $output, $input) or warn('bash failed');
+    print "output is '$output'\n";
+    
+    # no input
+    $bash->run('echo hello', $output);
+    print "output is '$output'\n";
+    
+    # use shell variable
+    $bash->run('echo $foo', $output, undef, foo => 'var from env');
+    print "output is '$output'\n";
 
-        # use bash feature
-        $bash->run('cat <(echo $foo)', $output, undef, foo => 'var from file');
-        print "output is '$output'\n";
+    # use bash feature
+    $bash->run('cat <(echo $foo)', $output, undef, foo => 'var from file');
+    print "output is '$output'\n";
+```
 
 # DESCIPTION
 
@@ -36,7 +38,7 @@ shell commands in addition to
 - `system('cmd')`
 - `open CMD, '|-', 'cmd'`
 - `open CMD, '-|', 'cmd'`
-- `IPC::Run`
+- [IPC::Run](https://metacpan.org/pod/IPC::Run)
 
 While these are convenient for simple commands, at the same
 time they lack support for some advanced shell features.
@@ -44,13 +46,15 @@ time they lack support for some advanced shell features.
 Here is an example for something rather simple within bash that cannot
 be done straightforward with perl:
 
-        export passwd=secret
-        key="$(openssl pkcs12 -nocerts -nodes -in somecert.pfx \
-                -passin env:passwd)"
-        signdata='some data to be signed'
-        signature="$(echo -n "$signdata" | \
-                openssl dgst -sha256 -sign <(echo "$key") -hex"
-        echo "$signature"
+```
+    export passwd=secret
+    key="$(openssl pkcs12 -nocerts -nodes -in somecert.pfx \
+            -passin env:passwd)"
+    signdata='some data to be signed'
+    signature="$(echo -n "$signdata" | \
+            openssl dgst -sha256 -sign <(echo "$key") -hex"
+    echo "$signature"
+```
 
 As there are much more openssl commands available on shell level
 than via perl modules, this is not so simple to adopt.
@@ -68,7 +72,7 @@ Other things to consider:
 Another challenge consists in feeding the called command
 with input from the perl script and capturing the output at
 the same time.
-While this last item is perfectly solved by `IPC::Run`,
+While this last item is perfectly solved by [IPC::Run](https://metacpan.org/pod/IPC::Run),
 the latter is rather complex and even requires some special setup to
 execute code by a specific shell.
 
@@ -86,17 +90,19 @@ of the called command
 Using the `Shell::Run` class, the above given shell script example
 might be implemented this way in perl:
 
-        my $bash = Shell::Run->new(name => 'bash');
+```perl
+    my $bash = Shell::Run->new(name => 'bash');
 
-        my $passwd = 'secret';
-        my $key;
-        $bash->run('openssl pkcs12 -nocerts -nodes -in demo.pfx \
-                -passin env:passwd', $key, undef, passwd => $passwd);
-        my $signdata = 'some data to be signed';
-        my $signature;
-        $bash->run('openssl dgst -sha256 -sign <(echo "$key") -hex',
-                 $signature, $signdata, key => $key);
-        print $signature;
+    my $passwd = 'secret';
+    my $key;
+    $bash->run('openssl pkcs12 -nocerts -nodes -in demo.pfx \
+            -passin env:passwd', $key, undef, passwd => $passwd);
+    my $signdata = 'some data to be signed';
+    my $signature;
+    $bash->run('openssl dgst -sha256 -sign <(echo "$key") -hex',
+             $signature, $signdata, key => $key);
+    print $signature;
+```
 
 Quite similar, isn't it?
 
