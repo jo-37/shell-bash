@@ -46,7 +46,7 @@ time they lack support for some advanced shell features.
 Here is an example for something rather simple within bash that cannot
 be done straightforward with perl:
 
-```
+```sh
     export passwd=secret
     key="$(openssl pkcs12 -nocerts -nodes -in somecert.pfx \
             -passin env:passwd)"
