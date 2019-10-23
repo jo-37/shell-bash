@@ -24,6 +24,7 @@ sub new {
 	} else {
 		my $name = $args{name} || 'sh';
 		$cmd[0] = which $name;
+		die "Cannot find shell '$name'" unless $cmd[0];
 	}	
 	if (defined $args{args}) {
 		push @cmd, @{$args{args}};
