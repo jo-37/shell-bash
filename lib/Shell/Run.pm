@@ -406,7 +406,7 @@ to the C<use> statement:
 
 =item use Shell::Run qw(I<name>...)
 
-Searches given I<name>s in C<PATH> and exports a subroutine of the
+Searches every given I<name> in C<PATH> and exports a subroutine of the
 same name for each given argument into the caller for accessing the
 specified external programs.
 

@@ -98,7 +98,7 @@ time they lack support for some advanced shell features.
 Here is an example for something rather simple within bash that cannot
 be done straightforward with perl:
 
-```
+```sh
     export passwd=secret
     key="$(openssl pkcs12 -nocerts -nodes -in somecert.pfx \
             -passin env:passwd)"
@@ -174,7 +174,7 @@ to the `use` statement:
 
 - use Shell::Run qw(_name_...)
 
-    Searches given _name_s in `PATH` and exports a subroutine of the
+    Searches every given _name_ in `PATH` and exports a subroutine of the
     same name for each given argument into the caller for accessing the
     specified external programs.
 
