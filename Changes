@@ -1,4 +1,11 @@
 Revision history for Shell-Run
+0.05_1	pending
+		[feature]
+		added procedural interface
+
+		[pod]
+		documented procedural interface
+
 0.05	Sat Oct 19 11:43:50 2019 +0200
 		[pod]
 		fix POD
