@@ -1,1 +1,7 @@
 *.old
+*.bak
+blib/
+MYMETA.*
+Makefile
+*.tar.gz
+pm_to_blib
