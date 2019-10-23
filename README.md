@@ -170,7 +170,9 @@ Debugging output can be enabled in a similar way.
 # USAGE
 
 The procedural interface's behaviour can be configured by arguments given
-to the `use` statement:
+to the `use` statement.
+Providing arguments to the `use Shell::Run` statement is mandatory
+for the procedural interfaces as nothing will be exported by default.
 
 - use Shell::Run qw(_name_...)
 

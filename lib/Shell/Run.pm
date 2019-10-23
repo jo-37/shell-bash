@@ -400,7 +400,9 @@ Debugging output can be enabled in a similar way.
 =head1 USAGE
 
 The procedural interface's behaviour can be configured by arguments given
-to the C<use> statement:
+to the C<use> statement.
+Providing arguments to the C<use Shell::Run> statement is mandatory
+for the procedural interfaces as nothing will be exported by default.
 
 =over
 
