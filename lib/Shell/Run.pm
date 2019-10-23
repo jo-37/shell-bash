@@ -211,43 +211,59 @@ Shell::Run - Execute shell commands using specific shell
 =head2 Procedural Interface
 
 	use Shell::Run 'sh';
-
 	my ($input, $output);
 
 	# no input
 	sh 'echo -n hello', $output;
 	print "output is '$output'\n";
+	# gives "output is 'hello'"
 
 	# input and output, status check
 	$input = 'fed to cmd';
 	sh 'cat', $output, $input or warn 'sh failed';
 	print "output is '$output'\n";
+	# gives "output is 'fed to cmd'"
 	
-	# use shell variable
+	# insert shell variable
 	sh 'echo -n $foo', $output, undef, foo => 'var from env';
 	print "output is '$output'\n";
+	# gives "output is 'var from env'"
 
-	# use bash feature
+	# special bash feature
 	use Shell::Run 'bash';
-
 	bash 'cat <(echo -n $foo)', $output, undef, foo => 'var from file';
 	print "output is '$output'\n";
+	# gives "output is 'var from file'"
 
 	# change export name
 	use Shell::Run 'sea-shell.v3' => {as => 'seash3'};
 	seash3 'echo hello', $output;
 
-	# use program not in PATH
+	# specify program not in PATH
 	use Shell::Run sgsh => {exe => '/opt/shotgun/shell'};
-	shsh 'fire', $output;
+	sgsh 'fire', $output;
+
+	# not a shell
+	use Shell::Run sed => {args => ['-e']};
+	sed 's/fed to/eaten by/', $output, $input;
+	print "output is '$output'\n";
+	# gives "output is 'eaten by cmd'"
 
 	# look behind the scenes
 	use Shell::Run sh => {debug => 1, as => 'sh_d'};
 	sh_d 'echo', $output;
+	# gives:
+	## using shell: /bin/sh -c
+	## executing cmd:
+	## echo -n
+	##
+	## closing output from cmd
+	## cmd exited with rc=0
 
 	# remove export
 	no Shell::Run qw(seash3 sgsh);
-	# from here seash3 and shsh are no longer available
+	# from here on seash3 and sgsh are no longer known
+	# use aliased name (seash3) if provided!
 
 =head2 OO Interface
 
