@@ -137,6 +137,7 @@ above named alternatives into one. I.e.:
 - enable feeding of standard input and capturing standard output
 of the called command 
 - enable access to perl variables within the called command
+- easy but flexible usage
 
 Using the Shell::Run module, the above given shell script example
 might be implemented this way in perl:

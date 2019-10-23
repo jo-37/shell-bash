@@ -368,6 +368,9 @@ of the called command
 =item *
 enable access to perl variables within the called command
 
+=item *
+easy but flexible usage
+
 =back
 
 Using the Shell::Run module, the above given shell script example
