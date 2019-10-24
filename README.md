@@ -215,33 +215,33 @@ for the procedural interfaces as nothing will be exported by default.
 
 # FUNCTIONS
 
-- _name_ _cmd_, _output_, \[_input_, \[_key_ => _value_,...\]\]
+### _name_ _cmd_, _output_, \[_input_, \[_key_ => _value_,...\]\]
 
-    Call external program configured as _name_.
+Call external program configured as _name_.
 
-    - _cmd_
+- _cmd_
 
-        The code that is to be executed by this shell.
+    The code that is to be executed by this shell.
 
-    - _output_
+- _output_
 
-        A scalar that will receive STDOUT from _cmd_.
-        The content of this variable will be overwritten by `$sh->run` calls.
+    A scalar that will receive STDOUT from _cmd_.
+    The content of this variable will be overwritten by `$sh->run` calls.
 
-    - _input_
+- _input_
 
-        An optional scalar holding data that is fed to STDIN of _cmd_
+    An optional scalar holding data that is fed to STDIN of _cmd_
 
-    - _key_ => _value_, ...
+- _key_ => _value_, ...
 
-        A list of key-value pairs that are set in the environment of the
-        called shell.
+    A list of key-value pairs that are set in the environment of the
+    called shell.
 
-    In scalar context, returns true or false according
-    to the exit status of the called command.
-    In list context, returns two values: the completion code
-    of the executed command and the exit status as the
-    logical negation of the completion code from a perl view.
+In scalar context, returns true or false according
+to the exit status of the called command.
+In list context, returns two values: the completion code
+of the executed command and the exit status as the
+logical negation of the completion code from a perl view.
 
 # METHODS
 
