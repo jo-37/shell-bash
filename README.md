@@ -61,6 +61,10 @@ Shell::Run - Execute shell commands using specific shell
     no Shell::Run qw(seash3 sgsh);
     # from here on seash3 and sgsh are no longer known
     # use aliased name (seash3) if provided!
+
+    # capture command status code
+    ($sc, $rc) = sh 'exit 2';
+    # status code $sc is 2, return code $rc is false
 ```
 
 ## OO Interface
@@ -217,7 +221,7 @@ for the procedural interfaces as nothing will be exported by default.
 
     - _cmd_
 
-        The code that is to be executed by this command.
+        The code that is to be executed by this shell.
 
     - _output_
 
@@ -232,6 +236,12 @@ for the procedural interfaces as nothing will be exported by default.
 
         A list of key-value pairs that are set in the environment of the
         called shell.
+
+    In scalar context, returns true or false according
+    to the exit status of the called command.
+    In list context, returns two values: the completion code
+    of the executed command and the exit status as the
+    logical negation of the completion code from a perl view.
 
 # METHODS
 
@@ -284,6 +294,12 @@ _options_ (if provided) must be a hash as follows:
 
     A list of key-value pairs that are set in the environment of the
     called shell.
+
+In scalar context, returns true or false according
+to the exit status of the called command.
+In list context, returns two values: the completion code
+of the executed command and the exit status as the
+logical negation of the completion code from a perl view.
 
 # BUGS AND LIMITATIONS
 
