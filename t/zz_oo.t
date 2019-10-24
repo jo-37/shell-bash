@@ -24,7 +24,6 @@ is $sc, 0, 'status code 0';
 is $rc, T(), 'return code true';
 
 # get status code on failure
-my $sc;
 ($sc, $rc) = $bash->run('exit 2');
 is $sc, 2, 'status code 2';
 is $rc, F(), 'return code false';
