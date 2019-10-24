@@ -8,7 +8,7 @@ Shell::Run - Execute shell commands using specific shell
 
 ```perl
     use Shell::Run 'sh';
-    my ($input, $output);
+    my ($input, $output, $rc, $sc);
 
     # no input
     sh 'echo -n hello', $output;
