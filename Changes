@@ -1,5 +1,5 @@
 Revision history for Shell-Run
-0.05_1	pending
+0.06	Fri Oct 25 00:00:48 2019 +0200
 		[feature]
 		added procedural interface
 		provide command exit status
