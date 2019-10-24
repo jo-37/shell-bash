@@ -2,18 +2,16 @@
 use strict;
 use warnings;
 
-use Shell::Run;
 use Test2::V0;
-use Test2::Tools::Class;
+use Test2::Tools::Compare qw(is T F array item end FDNE);
+
+use Shell::Run 'bash';
 
 my $output;
 my $rc;
 
-my $bash = Shell::Run->new(name => 'bash');
-isa_ok($bash, ['Shell::Run'], 'got blessed object');
-
 # no input
-$rc = $bash->run('echo hello', $output);
+$rc = bash 'echo hello', $output;
 is $output, "hello\n", 'capture output';
 is $rc, T(), 'retcode ok';
 
@@ -23,21 +21,26 @@ first line
 second line
 third line
 EOF
-$rc = $bash->run('cat', $output, $input);
+$rc = bash 'cat', $output, $input;
 is $output, $input, 'pipe input';
 is $rc, T(), 'retcode ok';
 
 # cmd fails
-$rc = $bash->run('false', $output);
+$rc = bash 'false', $output;
 is $rc, F(), 'retcode fail';
 
+# logical check
+my $fail;
+bash 'false' or $fail = 1;
+is $fail, 1, 'fail check';
+
 # provide env var
-$rc = $bash->run('echo $foo', $output, undef, foo => 'var from env');
+$rc = bash 'echo $foo', $output, undef, foo => 'var from env';
 is $output, "var from env\n", 'var from env';
 is $rc, T(), 'retcode ok';
 
 # special bash feature
-$rc = $bash->run('cat <(echo -n "$foo")', $output, undef, foo => $input);
+$rc = bash 'cat <(echo -n "$foo")', $output, undef, foo => $input;
 is $output, $input, 'special bash feature';
 is $rc, T(), 'retcode ok';
 
@@ -47,7 +50,7 @@ my $warn;
 {
 	local $SIG{__WARN__} = sub {$warn = $_[0]};
 	eval {
-		$rc = $bash->run('dd bs=64 count=8 2>/dev/null', $output, $block);
+		$rc = bash 'dd bs=64 count=8 2>/dev/null', $output, $block;
 	};
 	# next test fails if command exits before warning is issued
 	todo "warning depends on timing" => sub {
@@ -58,9 +61,16 @@ my $warn;
 	is $rc, T(), 'retcode ok';
 }
 
-# specify exe and args
-my $echo = Shell::Run->new(exe => 't/cmd.sh', args => ['-n']);
-$echo->run('hello', $output);
-is $output, 'hello', 'specific interpreter';
+my $cc;
+
+# capture completion code on failure
+($cc, $rc) = bash 'exit 2';
+is $rc, F(), 'cmd failed, list result';
+is $cc, 2, 'completion code 2';
+
+# capture completion code on success
+($cc, $rc) = bash 'exit';
+is $rc, T(), 'cmd succeeded, list result';
+is $cc, 0, 'completion code zero';
 
 done_testing;

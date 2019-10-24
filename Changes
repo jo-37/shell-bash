@@ -1,4 +1,16 @@
 Revision history for Shell-Run
+0.06	Fri Oct 25 00:00:48 2019 +0200
+		[feature]
+		added procedural interface
+		provide command exit status
+
+		[pod]
+		documented procedural interface
+		documented return value
+
+		[fix]
+		check if provided interpreter is available
+
 0.05	Sat Oct 19 11:43:50 2019 +0200
 		[pod]
 		fix POD
