@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 use Test2::V0;
+use Test2::Tools::Compare qw(is T F array item end FDNE);
 
 use Shell::Run 'bash';
 
@@ -27,6 +28,11 @@ is $rc, T(), 'retcode ok';
 # cmd fails
 $rc = bash 'false', $output;
 is $rc, F(), 'retcode fail';
+
+# logical check
+my $fail;
+bash 'false' or $fail = 1;
+is $fail, 1, 'fail check';
 
 # provide env var
 $rc = bash 'echo $foo', $output, undef, foo => 'var from env';
@@ -54,5 +60,17 @@ my $warn;
 	is length($output), 512, 'partial input processing';
 	is $rc, T(), 'retcode ok';
 }
+
+my $cc;
+
+# capture completion code on failure
+($cc, $rc) = bash 'exit 2';
+is $rc, F(), 'cmd failed, list result';
+is $cc, 2, 'completion code 2';
+
+# capture completion code on success
+($cc, $rc) = bash 'exit';
+is $rc, T(), 'cmd succeeded, list result';
+is $cc, 0, 'completion code zero';
 
 done_testing;

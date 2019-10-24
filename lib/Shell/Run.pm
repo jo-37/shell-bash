@@ -192,7 +192,7 @@ sub run {
 	my $status = $? >> 8;
 	print STDERR "cmd exited with rc=$status\n\n" if $self->{debug};
 
-	return !$status;
+	return ($status, !$status);
 }
 
 1;
@@ -264,6 +264,11 @@ Shell::Run - Execute shell commands using specific shell
 	no Shell::Run qw(seash3 sgsh);
 	# from here on seash3 and sgsh are no longer known
 	# use aliased name (seash3) if provided!
+
+	# capture command status code
+	($sc, $rc) = sh 'exit 2';
+	# status code $sc is 2, return code $rc is false
+
 
 =head2 OO Interface
 
@@ -461,7 +466,7 @@ Call external program configured as I<name>.
 
 =item I<cmd>
 
-The code that is to be executed by this command.
+The code that is to be executed by this shell.
 
 =item I<output>
 
@@ -478,6 +483,12 @@ A list of key-value pairs that are set in the environment of the
 called shell.
 
 =back
+
+In scalar context, returns true or false according
+to the exit status of the called command.
+In list context, returns two values: the completion code
+of the executed command and the exit status as the
+logical negation of the completion code from a perl view.
 
 =back
 
@@ -540,6 +551,12 @@ A list of key-value pairs that are set in the environment of the
 called shell.
 
 =back
+
+In scalar context, returns true or false according
+to the exit status of the called command.
+In list context, returns two values: the completion code
+of the executed command and the exit status as the
+logical negation of the completion code from a perl view.
 
 =head1 BUGS AND LIMITATIONS
 
