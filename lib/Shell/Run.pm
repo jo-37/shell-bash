@@ -456,9 +456,7 @@ Provide debugging output to C<STDERR> if I<debug> has a true value.
 
 =head1 FUNCTIONS
 
-=over
-
-=item I<name> I<cmd>, I<output>, [I<input>, [I<key> => I<value>,...]]
+=head3 I<name> I<cmd>, I<output>, [I<input>, [I<key> => I<value>,...]]
 
 Call external program configured as I<name>.
 
@@ -489,8 +487,6 @@ to the exit status of the called command.
 In list context, returns two values: the completion code
 of the executed command and the exit status as the
 logical negation of the completion code from a perl view.
-
-=back
 
 =head1 METHODS
 
