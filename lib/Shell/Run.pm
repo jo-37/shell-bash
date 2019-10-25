@@ -28,10 +28,10 @@ sub new {
 sub _exporter_expand_sub {
 	my $class = shift;
 	my ($name, $args, $globals) = @_;
-	my $shell = new($class, name => $name, %$args);
 	my $as = $args->{as} || $name;
 	croak "$as: not a valid subroutine name" unless $as =~ /^[a-z][\w]*$/;
-	return ($as => sub {return run($shell, @_);});
+	my $shell = $class->new(name => $name, %$args);
+	return ($as => sub {return $shell->run(@_);});
 }
 
 sub _get_shell {
@@ -404,6 +404,49 @@ This behaviour can be modified by providing other arguments in the
 C<use> statement or the constructor C<< Shell::Run->new >>.
 
 Debugging output can be enabled in a similar way.
+
+=head2 Procedural vs OO interface
+
+The procedural interface acts as a wrapper for the OO interface
+with a hidden object instance.
+Despite syntax, there is no difference in funtionallity between
+
+C<< $sh->run('something', ...) >>
+
+and
+
+C<sh 'something', ...>
+
+The only difference is I<when> the instance of Shell::Run is created.
+With C<use Shell::Run 'shell'> it happens in a C<BEGIN> block
+and with C<< $shell = Shell::Run->new(name => 'shell') >> at runtime.
+
+So use the OO interface
+
+=over
+
+=item *
+if you like it more
+
+=item *
+if need a reference to the C<run> subroutine
+
+=item *
+if you want to catch errors from the C<new> constructor at runtime
+
+=back
+
+and use the procedural interface
+
+=over
+
+=item *
+if you like it more
+
+=item *
+if you prefer a terse syntax
+
+=back
 
 =head1 USAGE
 
