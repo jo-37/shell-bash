@@ -172,6 +172,33 @@ This behaviour can be modified by providing other arguments in the
 
 Debugging output can be enabled in a similar way.
 
+## Procedural vs OO interface
+
+The procedural interface acts as a wrapper for the OO interface
+with a hidden object instance.
+Despite syntax, there is no difference in funtionallity between
+
+`$sh->run('something', ...)`
+
+and
+
+`sh 'something', ...`
+
+The only difference is _when_ the instance of Shell::Run is created.
+With `use Shell::Run 'shell'` it happens in a `BEGIN` block
+and with `$shell = Shell::Run->new(name => 'shell')` at runtime.
+
+So use the OO interface
+
+- if you like it more
+- if need a reference to the `run` subroutine
+- if you want to catch errors from the `new` constructor at runtime
+
+and use the procedural interface
+
+- if you like it more
+- if you prefer a terse syntax
+
 # USAGE
 
 The procedural interface's behaviour can be configured by arguments given
