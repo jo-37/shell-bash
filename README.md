@@ -253,7 +253,7 @@ Call external program configured as _name_.
 - _output_
 
     A scalar that will receive STDOUT from _cmd_.
-    The content of this variable will be overwritten by `$sh->run` calls.
+    The content of this variable will be overwritten.
 
 - _input_
 
@@ -311,7 +311,7 @@ _options_ (if provided) must be a hash as follows:
 - _output_
 
     A scalar that will receive STDOUT from _cmd_.
-    The content of this variable will be overwritten by `$sh->run` calls.
+    The content of this variable will be overwritten.
 
 - _input_
 
