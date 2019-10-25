@@ -512,7 +512,7 @@ The code that is to be executed by this shell.
 =item I<output>
 
 A scalar that will receive STDOUT from I<cmd>.
-The content of this variable will be overwritten by C<< $sh->run >> calls.
+The content of this variable will be overwritten.
 
 =item I<input>
 
@@ -578,7 +578,7 @@ The code that is to be executed by this shell.
 =item I<output>
 
 A scalar that will receive STDOUT from I<cmd>.
-The content of this variable will be overwritten by C<< $sh->run >> calls.
+The content of this variable will be overwritten.
 
 =item I<input>
 
