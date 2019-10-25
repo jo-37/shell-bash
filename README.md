@@ -48,7 +48,7 @@ Shell::Run - Execute shell commands using specific shell
 
     # look behind the scenes
     use Shell::Run sh => {debug => 1, as => 'sh_d'};
-    sh_d 'echo', $output;
+    sh_d 'echo -n', $output;
     # gives:
     ## using shell: /bin/sh -c
     ## executing cmd:
