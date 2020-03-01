@@ -1,4 +1,8 @@
 Revision history for Shell-Run
+0.09	Sun Mar 1 11:20:53 2020 +0100
+		[feature]
+		remove usage of IO::String
+
 0.08	Mon Oct 28 21:13:21 2019 +0100
 		[meta]
 		added new test to MANIFEST
