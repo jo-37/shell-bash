@@ -1,4 +1,8 @@
 Revision history for Shell-Run
+0.10	Sun Mar 1 15:52:31 2020 +0100
+		[feature]
+		consider encoding
+
 0.09	Sun Mar 1 11:34:24 2020 +0100
 		[feature]
 		remove usage of IO::String
