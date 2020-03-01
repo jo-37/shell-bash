@@ -12,7 +12,7 @@ use Carp;
 use constant BLKSIZE => 1024;
 
 our
-	$VERSION = '0.08_1';
+	$VERSION = '0.09';
 
 our @ISA = qw(Exporter::Tiny);
 
