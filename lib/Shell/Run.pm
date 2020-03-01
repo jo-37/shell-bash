@@ -6,9 +6,10 @@ use warnings;
 use Exporter::Tiny;
 use IPC::Open2;
 use IO::Select;
-use IO::String;
+#use IO::String;
 use File::Which;
 use Carp;
+use if $ENV{DEBUG}, 'Debug::Filter::PrintExpr';
 
 use constant BLKSIZE => 1024;
 
@@ -74,8 +75,9 @@ sub run {
 
 	# cmd input
 	my $input = shift;
-	my $inh = IO::String->new;
-	$inh->open($input);
+	#my $inh = IO::String->new;
+	open my $inh, '<', \$input or croak "cannot open input data";
+	#$inh->open($input);
 	print STDERR "have input data\n" if $self->{debug} && $input;
 
 	# additional environment entries for use as shell variables
@@ -149,7 +151,9 @@ sub run {
 			}
 
 			# save position in case of partial writes
-			my $pos = $inh->getpos;
+			#my $pos = $inh->getpos;
+			my $pos = tell $inh;
+			#${$pos}
 
 			# try to write chunk of data
 			my $data = $inh->getline;
@@ -158,6 +162,7 @@ sub run {
 			print STDERR "writing $to_be_written bytes to cmd\n"
 				if $self->{debug} && $data;
 			my $bytes = syswrite $wh, $data, BLKSIZE;
+			#${$bytes}
 
 			# write failure mostly because of broken pipe
 			unless (defined $bytes) {
@@ -173,7 +178,10 @@ sub run {
 				
 			# adjust input data position
 			if ($bytes < length($data)) {
-				$inh->setpos($pos + $bytes);
+				#${$pos}
+				#${$bytes}
+				#$inh->setpos($pos + $bytes);
+				seek $inh, $pos + $bytes, 0;
 			}
 
 			# close cmd input when data is exhausted

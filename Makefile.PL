@@ -22,7 +22,6 @@ WriteMakefile(
 		'Exporter::Tiny' => 0.025,
 		'IPC::Open2' => 0,
 		'IO::Select' => 0,
-		'IO::String' => 0,
 		'File::Which' => 0,
 		'Carp'	=> 0,
     },
