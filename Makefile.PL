@@ -23,6 +23,7 @@ WriteMakefile(
 		'IPC::Open2' => 0,
 		'IO::Select' => 0,
 		'File::Which' => 0,
+		'Encode' => 0,
 		'Carp'	=> 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
