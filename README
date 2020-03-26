@@ -1,4 +1,4 @@
-Shell::Bash
+Shell::Bash version 0.10_1
 
 This module provides an interface to the bash shell (or any other
 interpreter) in addition to "system()", "qx{}", "open CMD, '|-', 'cmd'"

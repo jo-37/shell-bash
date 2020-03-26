@@ -206,6 +206,10 @@ __END__
 
 Shell::Run - Execute shell commands using specific shell
 
+=head1 VERSION
+
+This document describes Shell::Run version 0.10_1
+ 
 =head1 SYNOPSIS
 
 =head2 Procedural Interface
